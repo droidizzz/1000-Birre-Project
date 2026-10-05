@@ -19,6 +19,7 @@ config.json
 # Generated reports
 report*.html
 birre*.csv
+out/
 
 # OS / editors
 .DS_Store

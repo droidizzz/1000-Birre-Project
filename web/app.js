@@ -26,7 +26,9 @@ if (!IS_REPORT) {
   if (saved && saved.raw) input = { kind: 'raw', raw: saved.raw, source: saved.source };
 }
 
-let aliases = store.get('aliases', {});
+// Display names are kept per data source, so names typed for a real chat never leak into the example or a report.
+const aliasKey = () => (input.source && input.source.example ? 'aliases:example' : input.source && input.source.report ? 'aliases:report:' + (DATA.source || '') : 'aliases');
+let aliases = store.get(aliasKey(), {});
 let opts = normalizeOptions({ ...(DATA.options || {}), ...store.get('opts', {}) });
 
 // ---------- controls
@@ -71,6 +73,7 @@ function useText(text, source) {
     return false;
   }
   input = { kind: 'raw', raw: text, source };
+  aliases = store.get(aliasKey(), {});
   if (!IS_REPORT) store.set('chat', { raw: text, source });
   run();
   return true;
@@ -90,7 +93,7 @@ document.addEventListener('dragover', (e) => { e.preventDefault(); $('app').clas
 document.addEventListener('dragleave', (e) => { if (!e.relatedTarget) $('app').classList.remove('drop'); });
 document.addEventListener('drop', (e) => { e.preventDefault(); $('app').classList.remove('drop'); const f = e.dataTransfer.files[0]; if (f) loadFile(f); });
 $('source').addEventListener('click', (e) => {
-  if (e.target.id === 'reset-input') { store.del('chat'); input = defaultInput(); run(); }
+  if (e.target.id === 'reset-input') { store.del('chat'); input = defaultInput(); aliases = store.get(aliasKey(), {}); run(); }
 });
 
 // ---------- charts
@@ -322,7 +325,7 @@ function renderLeaderboard(S, result) {
   $('aliases').querySelectorAll('input').forEach((el) => el.addEventListener('change', () => {
     const v = el.value.trim();
     if (v) aliases[el.dataset.k] = v; else delete aliases[el.dataset.k];
-    store.set('aliases', aliases);
+    store.set(aliasKey(), aliases);
     run();
   }));
 }
