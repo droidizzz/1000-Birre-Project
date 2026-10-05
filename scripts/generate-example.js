@@ -11,11 +11,11 @@ const OUT = fileURLToPath(new URL('../examples/chat-esempio.txt', import.meta.ur
 
 // Fictional people. Phone numbers use the 555 range.
 const PEOPLE = [
-  { name: 'Marco Ferri', weight: 5 },
-  { name: 'Giulia Conti', weight: 4 },
+  { name: 'Jolly Fermi', weight: 5 },
+  { name: 'Brave Montalcini', weight: 4 },
   { name: '+39 333 555 0142', weight: 4 },
   { name: 'Tu', weight: 3 },
-  { name: 'Ale Moretti', weight: 3 },
+  { name: 'Sleepy Volta', weight: 3 },
   { name: '+39 347 555 0198', weight: 2 },
   { name: '+41 79 555 01 23', weight: 1 },
 ];
@@ -42,9 +42,9 @@ const sys = (d, text) => lines.push(`${stamp(d)} - ${text}`);
 
 const start = Date.UTC(2026, 7, 1); // 1 Aug 2026
 lines.push('I messaggi e le chiamate sono crittografati end-to-end. Nessuno al di fuori di questa chat, nemmeno WhatsApp, può leggerne o ascoltarne il contenuto.');
-sys(new Date(start - 86400e3 + 20 * 3600e3), 'Marco Ferri ha creato il gruppo.');
-sys(new Date(start - 86400e3 + 20 * 3600e3 + 60e3), 'Marco Ferri ha aggiunto Tu.');
-say(new Date(start - 86400e3 + 21 * 3600e3), 'Marco Ferri', 'si parte domani, tenetevi pronti');
+sys(new Date(start - 86400e3 + 20 * 3600e3), 'Jolly Fermi ha creato il gruppo.');
+sys(new Date(start - 86400e3 + 20 * 3600e3 + 60e3), 'Jolly Fermi ha aggiunto Tu.');
+say(new Date(start - 86400e3 + 21 * 3600e3), 'Jolly Fermi', 'si parte domani, tenetevi pronti');
 
 // Beers per day: weekend-heavy, with a quiet week in the middle.
 const BASE = [2, 3, 3, 4, 9, 13, 5]; // Mon..Sun
@@ -77,7 +77,7 @@ for (let day = 0; day < days; day++) {
     }
     if (n === 88) { // two people post the same number a few seconds apart
       say(d, who, `<immagine omessa> ${n}`);
-      say(new Date(+d + 2000), who === 'Giulia Conti' ? 'Marco Ferri' : 'Giulia Conti', `<immagine omessa> ${n}`);
+      say(new Date(+d + 2000), who === 'Brave Montalcini' ? 'Jolly Fermi' : 'Brave Montalcini', `<immagine omessa> ${n}`);
       n++;
       continue;
     }
@@ -91,7 +91,7 @@ for (let day = 0; day < days; day++) {
       continue;
     }
     if (n === 200) { // chatter that must not count
-      say(new Date(+d - 120000), 'Ale Moretti', 'stasera 2 birre e poi a casa');
+      say(new Date(+d - 120000), 'Sleepy Volta', 'stasera 2 birre e poi a casa');
     }
     say(d, who, `<immagine omessa> ${n}`);
   }

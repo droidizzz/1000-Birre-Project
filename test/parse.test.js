@@ -34,7 +34,7 @@ test('multi-line messages continue the previous one', () => {
 test('Android export: 24h clock, day/month order, caption on the next line', () => {
   const { messages, dateOrder } = parseChat(fixture('chat-android.txt'));
   assert.equal(dateOrder, 'dmy');
-  const caption = messages.find((m) => m.author === 'Sara Galli' && m.hasPhoto);
+  const caption = messages.find((m) => m.author === 'Nifty Cassini' && m.hasPhoto);
   assert.equal(tsToISO(caption.ts), '2026-10-03T18:40:00');
   assert.equal(caption.text, 'IMG-20261003-WA0007.jpg (file allegato)\n348');
 });
@@ -46,14 +46,14 @@ test('ambiguous dates follow the forced order', () => {
 });
 
 test('invisible direction marks are ignored', () => {
-  const { messages } = parseChat('‎[9/4/26, 7:28:59 PM] Marco: ‎<immagine omessa> 1');
+  const { messages } = parseChat('‎[9/4/26, 7:28:59 PM] Fermi: ‎<immagine omessa> 1');
   assert.equal(messages.length, 1);
-  assert.equal(messages[0].author, 'Marco');
+  assert.equal(messages[0].author, 'Fermi');
   assert.equal(messages[0].hasPhoto, true);
 });
 
 test('deleted messages are flagged', () => {
-  const { messages } = parseChat('[9/12/26, 6:21:26 PM] Tu: Hai eliminato questo messaggio.\n[9/19/26, 8:19:04 PM] Giulia: Questo messaggio è stato eliminato.');
+  const { messages } = parseChat('[9/12/26, 6:21:26 PM] Tu: Hai eliminato questo messaggio.\n[9/19/26, 8:19:04 PM] Montalcini: Questo messaggio è stato eliminato.');
   assert.deepEqual(messages.map((m) => m.deleted), [true, true]);
 });
 

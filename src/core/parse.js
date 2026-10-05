@@ -1,11 +1,11 @@
 // Parser for WhatsApp chat exports (.txt), iOS and Android, Italian and English.
 //
 // Supported line shapes:
-//   [9/4/26, 7:28:59 PM] Marco: <immagine omessa> 1          iOS, 12h clock
-//   [04/09/26, 19:28:59] Marco: <immagine omessa> 1          iOS, 24h clock
-//   [9/3/26, 7:48:41 PM] - Mario ha creato il gruppo.       iOS system message
-//   04/09/26, 19:28 - Marco: IMG-20260904-WA0001.jpg (file allegato)
-//   04/09/26, 19:28 - Marco: <Media omessi>                  Android
+//   [9/4/26, 7:28:59 PM] Fermi: <immagine omessa> 1          iOS, 12h clock
+//   [04/09/26, 19:28:59] Fermi: <immagine omessa> 1          iOS, 24h clock
+//   [9/3/26, 7:48:41 PM] - Turing ha creato il gruppo.      iOS system message
+//   04/09/26, 19:28 - Fermi: IMG-20260904-WA0001.jpg (file allegato)
+//   04/09/26, 19:28 - Fermi: <Media omessi>                  Android
 // Lines that do not start with a timestamp continue the previous message.
 
 const RE_IOS = /^\[(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4}),?\s+(\d{1,2})[:.](\d{2})(?:[:.](\d{2}))?\s*([AaPp]\.?\s?[Mm]\.?)?\]\s*(.*)$/;

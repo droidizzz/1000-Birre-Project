@@ -16,7 +16,7 @@ export function maskPhone(author) {
 /**
  * Build a function that maps the author as written in the chat to the name to show.
  *
- * Alias keys can be written as they appear in the chat ("Ale", "Tu") or as a phone
+ * Alias keys can be written as they appear in the chat ("Volta", "Tu") or as a phone
  * number in any format: "+39 333 123 4567", "3331234567" and "+39 ··· 4567" all
  * match the same contact. Name keys are case-insensitive.
  */

@@ -42,9 +42,9 @@ test('weekday averages and weeks add up', () => {
 
 test('leaderboard merges aliases and adds up', () => {
   const plain = analyzeChat(example).stats;
-  const merged = analyzeChat(example, { aliases: { 'Ale Moretti': 'Marco Ferri' } }).stats;
+  const merged = analyzeChat(example, { aliases: { 'Sleepy Volta': 'Jolly Fermi' } }).stats;
   assert.equal(plain.leaderboard.reduce((a, p) => a + p.beers, 0), 295);
-  assert.equal(merged.leaderboard[0].name, 'Marco Ferri');
+  assert.equal(merged.leaderboard[0].name, 'Jolly Fermi');
   assert.equal(merged.leaderboard[0].beers, 69 + 34);
 });
 

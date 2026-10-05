@@ -95,10 +95,10 @@ Chi non è salvato in rubrica compare nell'export come numero di telefono. Per p
 {
   "goal": 1000,
   "aliases": {
-    "Tu": "Mario Rossi",
-    "+39 333 555 0142": "Luca Bianchi",
-    "3475550198": "Sara Verdi",
-    "Ale Moretti": "Alessandro Moretti"
+    "Tu": "Admiring Turing",
+    "+39 333 555 0142": "Elated Hopper",
+    "3475550198": "Quirky Lovelace",
+    "Sleepy Volta": "Drowsy Volta"
   }
 }
 ```

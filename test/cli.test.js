@@ -23,7 +23,7 @@ test('--json with config', () => {
   const report = JSON.parse(run(example, '--json', '--config', config, '--goal', '500'));
   assert.equal(report.total, 295);
   assert.equal(report.goal, 500);
-  assert.equal(report.leaderboard.find((p) => p.name === 'Mario Rossi').beers, 41);
+  assert.equal(report.leaderboard.find((p) => p.name === 'Admiring Turing').beers, 41);
   assert.equal(report.options.aliases, undefined, 'aliases are not repeated in the output');
   assert.equal(report.daily.length, 57);
 });

@@ -5,21 +5,21 @@ import { createNameResolver, maskPhone, isPhone } from '../src/core/names.js';
 test('maskPhone keeps the country code and the last 4 digits', () => {
   assert.equal(maskPhone('+39 333 555 0142'), '+39 ··· 0142');
   assert.equal(maskPhone('+41 79 555 01 23'), '+41 ··· 0123');
-  assert.equal(maskPhone('Marco Ferri'), 'Marco Ferri');
+  assert.equal(maskPhone('Jolly Fermi'), 'Jolly Fermi');
   assert.equal(isPhone('Tu'), false);
 });
 
 test('aliases match names case-insensitively', () => {
-  const resolve = createNameResolver({ tu: 'Mario Rossi' });
-  assert.equal(resolve('Tu'), 'Mario Rossi');
-  assert.equal(resolve('Giulia'), 'Giulia');
+  const resolve = createNameResolver({ tu: 'Admiring Turing' });
+  assert.equal(resolve('Tu'), 'Admiring Turing');
+  assert.equal(resolve('Montalcini'), 'Montalcini');
 });
 
 test('phone aliases match in any format, with or without country code', () => {
-  const resolve = createNameResolver({ '3335550142': 'Luca', '+39 347 555 0198': 'Sara', '+41 ··· 0123': 'Nico' });
-  assert.equal(resolve('+39 333 555 0142'), 'Luca');
-  assert.equal(resolve('+39 347 555 0198'), 'Sara');
-  assert.equal(resolve('+41 79 555 01 23'), 'Nico');
+  const resolve = createNameResolver({ '3335550142': 'Hopper', '+39 347 555 0198': 'Lovelace', '+41 ··· 0123': 'Noether' });
+  assert.equal(resolve('+39 333 555 0142'), 'Hopper');
+  assert.equal(resolve('+39 347 555 0198'), 'Lovelace');
+  assert.equal(resolve('+41 79 555 01 23'), 'Noether');
 });
 
 test('unknown phones are masked unless masking is off', () => {
