@@ -1,0 +1,47 @@
+{
+  "name": "mille-birre",
+  "version": "0.1.0",
+  "description": "Statistiche e proiezioni per i gruppi WhatsApp che contano le birre fino a mille, a partire dall'export della chat.",
+  "keywords": [
+    "whatsapp",
+    "chat-export",
+    "beer",
+    "birre",
+    "statistics",
+    "dashboard",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "droidizzz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/droidizzz/1000-Birre-Project.git"
+  },
+  "homepage": "https://github.com/droidizzz/1000-Birre-Project#readme",
+  "bugs": {
+    "url": "https://github.com/droidizzz/1000-Birre-Project/issues"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "mille-birre": "./bin/mille-birre.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "web/",
+    "config.example.json"
+  ],
+  "scripts": {
+    "start": "node bin/mille-birre.js examples/chat-esempio.txt",
+    "build": "node scripts/build.js",
+    "example": "node scripts/generate-example.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

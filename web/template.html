@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Statistiche e proiezioni per i gruppi WhatsApp che contano le birre fino a mille.">
+<title>Mille Birre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+/* @@STYLE@@ */
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <header class="top">
+    <div class="brand">
+      <h1>Mille<br><span>Birre</span></h1>
+      <p>Il contatore per i gruppi WhatsApp che puntano a mille birre: ogni foto con il suo numero progressivo è una birra.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;min-width:0">
+      <div class="actions">
+        <label class="btn btn-primary file-label" for="file">Carica export (.txt o .zip)<input type="file" id="file" accept=".txt,.zip,text/plain,application/zip"></label>
+        <button type="button" id="paste-toggle">Incolla testo</button>
+      </div>
+      <div class="source" id="source"></div>
+    </div>
+  </header>
+
+  <p class="banner" id="example-banner" hidden>Stai guardando una chat di esempio con persone inventate. Carica l'export del tuo gruppo per vedere le vostre statistiche.</p>
+
+  <div id="paste-box" hidden>
+    <details class="box" open>
+      <summary>Incolla qui il contenuto di _chat.txt</summary>
+      <textarea id="paste-text" placeholder="[9/4/26, 7:28:59 PM] Marco Ferri: <immagine omessa> 1"></textarea>
+      <div class="actions" style="margin-top:8px"><button type="button" id="paste-go" class="btn-primary btn">Analizza</button><span id="paste-err" class="err"></span></div>
+    </details>
+  </div>
+
+  <div class="glass">
+    <div>
+      <div class="eyebrow">Birre bevute dal gruppo</div>
+      <div class="count"><span class="big num" id="total">0</span><span class="of num" id="goal-of">/ 1000</span></div>
+    </div>
+    <div class="left-to-go"><div class="eyebrow">Mancano</div><div class="v num" id="remaining">1000</div></div>
+    <div class="scale">
+      <div class="tube" role="progressbar" id="tube" aria-valuemin="0"><div class="fill" id="fill" style="width:0"></div></div>
+      <div class="ticks" id="ticks"></div>
+    </div>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+
+  <section>
+    <div class="sec-head"><h2>Quando arriviamo a <span id="goal-h">1000</span>?</h2><p>Proiezione lineare con tre ritmi diversi</p></div>
+    <div class="proj">
+      <div class="panel"><div class="chart-box tall"><canvas id="c-proj" aria-label="Birre cumulative e proiezioni"></canvas></div></div>
+      <div class="panel scen">
+        <div id="scen"></div>
+        <div class="calc">
+          <label for="target-date">Per arrivare entro il <input type="date" id="target-date"></label>
+          <div class="out" id="calc-out"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Andamento</h2><p id="day-note"></p></div>
+    <div class="grid2">
+      <div class="panel"><h3>Birre al giorno</h3><p class="note">Barre: giorno per giorno. Linea: media degli ultimi 7 giorni.</p><div class="chart-box"><canvas id="c-daily"></canvas></div></div>
+      <div class="panel"><h3>Birre a settimana</h3><p class="note">Da lunedì a domenica. Le barre chiare sono settimane parziali.</p><div class="chart-box"><canvas id="c-weekly"></canvas></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Abitudini</h2><p>Quando beve il gruppo</p></div>
+    <div class="grid2">
+      <div class="panel"><h3>Media per giorno della settimana</h3><p class="note" id="wd-note"></p><div class="chart-box"><canvas id="c-weekday"></canvas></div></div>
+      <div class="panel"><h3>Fascia oraria</h3><p class="note">Totale birre per ora d'invio della foto.</p><div class="chart-box"><canvas id="c-hours"></canvas></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Classifica</h2><p id="board-note"></p></div>
+    <div class="panel">
+      <div class="board" id="board"></div>
+      <details>
+        <summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--muted)">Cambia i nomi visualizzati</summary>
+        <p class="note" style="margin:8px 0 0">"Tu" è chi ha esportato la chat. Lascia vuoto per usare il nome dell'export. I nomi restano salvati solo in questo browser.</p>
+        <div class="alias-list" id="aliases"></div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Record e traguardi</h2><p>Un traguardo ogni 100 birre</p></div>
+    <div class="records" id="records"></div>
+    <div class="miles" id="miles"></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>Controllo lettura</h2><p>Cosa ha riconosciuto il parser</p></div>
+    <div class="parse-sum" id="parse-sum"></div>
+    <details class="box" id="anom-box">
+      <summary id="anom-title">Correzioni e messaggi scartati</summary>
+      <div class="tbl-wrap"><table><thead><tr><th>Quando</th><th>Chi</th><th>Messaggio</th><th>Esito</th><th>Dettaglio</th></tr></thead><tbody id="anom"></tbody></table></div>
+    </details>
+    <details class="box">
+      <summary>Impostazioni</summary>
+      <div class="opts">
+        <label for="o-goal">Obiettivo<input type="number" id="o-goal" min="10" step="10" value="1000"></label>
+        <label for="o-shift">La giornata inizia alle
+          <select id="o-shift"><option value="0">00:00</option><option value="4">04:00</option><option value="5" selected>05:00</option><option value="6">06:00</option></select>
+          <small>Una birra all'1 di notte conta per la sera prima.</small></label>
+        <label for="o-jump">Salto massimo tra due numeri<input type="number" id="o-jump" min="1" max="50" value="5"><small>Numeri più lontani vengono scartati come refusi.</small></label>
+        <label class="check" for="o-photo"><input type="checkbox" id="o-photo" checked><span>Conta solo con foto<br><small>Il numero deve stare nella didascalia o arrivare entro 10 minuti dalla foto.</small></span></label>
+        <label class="check" for="o-mask"><input type="checkbox" id="o-mask" checked><span>Nascondi i numeri di telefono<br><small>Mostra solo prefisso e ultime 4 cifre.</small></span></label>
+        <label class="check" for="o-strict"><input type="checkbox" id="o-strict"><span>Modalità rigida<br><small>Scarta i messaggi con testo oltre al numero.</small></span></label>
+      </div>
+    </details>
+  </section>
+
+  <p class="foot">Il file viene letto solo nel tuo browser e non viene inviato da nessuna parte. Per l'export: apri la chat del gruppo → Esporta chat → Senza media. Mille Birre è open source con licenza MIT: codice e istruzioni su <a href="https://github.com/droidizzz/1000-Birre-Project" target="_blank" rel="noopener">github.com/droidizzz/1000-Birre-Project</a>.</p>
+</div>
+
+<script type="application/json" id="mb-data">"@@DATA@@"</script>
+<script>
+/* @@SCRIPT@@ */
+</script>
+</body>
+</html>

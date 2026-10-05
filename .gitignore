@@ -1,0 +1,27 @@
+# Build
+dist/
+node_modules/
+*.tgz
+
+# Real chat exports: never commit them (the fictional ones live in examples/)
+_chat.txt
+WhatsApp Chat*.txt
+Chat WhatsApp*.txt
+WhatsApp Chat*.zip
+Chat WhatsApp*.zip
+/chat/
+/exports/
+
+# Personal config with real names and numbers
+config.json
+*.local.json
+
+# Generated reports
+report*.html
+birre*.csv
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

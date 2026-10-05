@@ -1,0 +1,15 @@
+{
+  "goal": 1000,
+  "dayStartHour": 5,
+  "maxJump": 5,
+  "requirePhoto": true,
+  "strict": false,
+  "dateOrder": "auto",
+  "maskPhones": true,
+  "aliases": {
+    "Tu": "Mario Rossi",
+    "+39 333 555 0142": "Luca Bianchi",
+    "3475550198": "Sara Verdi",
+    "Ale Moretti": "Alessandro Moretti"
+  }
+}
