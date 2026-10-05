@@ -73,7 +73,7 @@ Opzioni principali:
 
 | Opzione | Effetto |
 |---|---|
-| `--html report.html` | report HTML autonomo, con grafici, da aprire o mandare al gruppo |
+| `--html report.html` | report HTML autonomo, con grafici, da aprire o mandare al gruppo (solo lettura: senza caricamento di chat, quello c'è solo nel sito e nel repo) |
 | `--json [file]` | statistiche in JSON (senza file, sullo standard output) |
 | `--csv birre.csv` | una riga per birra: numero, data, ora, autore, tipo |
 | `-g, --goal 500` | obiettivo diverso da 1000 |

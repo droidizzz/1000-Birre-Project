@@ -5,6 +5,7 @@ import { mkdtempSync, readFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { buildHtml } from '../src/report/html.js';
 
 const bin = fileURLToPath(new URL('../bin/mille-birre.js', import.meta.url));
 const example = fileURLToPath(new URL('../examples/chat-esempio.txt', import.meta.url));
@@ -36,6 +37,7 @@ test('--html and --csv write files', () => {
   assert.match(html, /"mode":"report"/);
   assert.doesNotMatch(html, /@@(STYLE|DATA|SCRIPT)@@/);
   assert.doesNotMatch(html, /tenetevi pronti/, 'chatter without numbers stays out of the report');
+  assert.doesNotMatch(html, /@@UPLOAD|id="file"|paste-box|paste-toggle|jszip/i, 'a report is view-only: no upload or paste tool');
   const csv = readFileSync(join(dir, 'b.csv'), 'utf8').trim().split('\n');
   assert.equal(csv.length, 296);
   assert.ok(existsSync(join(dir, 'r.html')));
@@ -45,4 +47,12 @@ test('errors are explained', () => {
   const r = spawnSync(process.execPath, [bin, 'non-esiste.txt'], { encoding: 'utf8' });
   assert.equal(r.status, 1);
   assert.match(r.stderr, /non esiste/);
+});
+
+test('the public site keeps the upload and paste controls', () => {
+  const html = buildHtml({ mode: 'example', raw: readFileSync(example, 'utf8') });
+  assert.match(html, /id="file"/);
+  assert.match(html, /id="paste-box"/);
+  assert.match(html, /jszip/i);
+  assert.doesNotMatch(html, /@@UPLOAD/);
 });

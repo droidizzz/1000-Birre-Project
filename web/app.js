@@ -50,6 +50,8 @@ function readOptions() {
 ['o-goal', 'o-shift', 'o-jump', 'o-photo', 'o-strict', 'o-mask'].forEach((id) => $(id).addEventListener('change', readOptions));
 
 // ---------- loading a chat
+// Code between the marker comments below is dropped from CLI reports (see buildHtml): they are view-only.
+// @@UPLOAD
 async function loadFile(file) {
   try {
     let text;
@@ -78,8 +80,10 @@ function useText(text, source) {
   run();
   return true;
 }
+// /@@UPLOAD
 function showError(msg) { $('source').innerHTML = `<span class="err">${esc(msg)}</span>`; }
 
+// @@UPLOAD
 $('file').addEventListener('change', (e) => { const f = e.target.files[0]; if (f) loadFile(f); e.target.value = ''; });
 $('paste-toggle').addEventListener('click', () => { $('paste-box').hidden = !$('paste-box').hidden; });
 $('paste-go').addEventListener('click', () => {
@@ -95,6 +99,7 @@ document.addEventListener('drop', (e) => { e.preventDefault(); $('app').classLis
 $('source').addEventListener('click', (e) => {
   if (e.target.id === 'reset-input') { store.del('chat'); input = defaultInput(); aliases = store.get(aliasKey(), {}); run(); }
 });
+// /@@UPLOAD
 
 // ---------- charts
 const charts = {};

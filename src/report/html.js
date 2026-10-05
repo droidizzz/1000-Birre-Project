@@ -39,8 +39,13 @@ export function bundleCore() {
  */
 export function buildHtml(data) {
   const json = JSON.stringify(data).replace(/</g, '\\u003c');
-  const script = `(function () {\n'use strict';\n${bundleCore()}\n// ---- web/app.js\n${read('web/app.js')}\n})();`;
-  return read('web/template.html')
+  // Reports are for sharing results, not the tool: the upload/paste UI and its code exist only in the public site.
+  const report = data.mode === 'report';
+  const cut = (text, re) => (report ? text.replace(re, '') : text);
+  const appJs = cut(read('web/app.js'), /^\/\/ @@UPLOAD\n[\s\S]*?^\/\/ \/@@UPLOAD\n/gm).replace(/^\/\/ \/?@@UPLOAD\n/gm, '');
+  const script = `(function () {\n'use strict';\n${bundleCore()}\n// ---- web/app.js\n${appJs}\n})();`;
+  const html = cut(read('web/template.html'), /<!--@@UPLOAD-->[\s\S]*?<!--\/@@UPLOAD-->\n?/g).replace(/<!--\/?@@UPLOAD-->\n?/g, '');
+  return html
     .replace('/* @@STYLE@@ */', () => read('web/style.css'))
     .replace('"@@DATA@@"', () => json)
     .replace('/* @@SCRIPT@@ */', () => script.replace(/<\/script/gi, '<\\/script'));
